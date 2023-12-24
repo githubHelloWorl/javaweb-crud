@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .t_all{
+            border: solid 1px black;  width:auto;
+            margin: auto;
+        }
+        .bu{
+            width: 70px; background-color: aqua; color: black;
+        }
+        .bu:hover{
+            background-color: darkorange;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 0px 0px 10px 500px;">
+        <form method="post" th:action="@{/selectLike}">
+            姓名:
+            <input type="text" name="name" />
+            <input type="submit" value="提交" />
+        </form>
+        <br/>
+
+        <nav>
+            共<a href="#" style="border-radius: 10px;margin-left: 8px;margin-right: 8px;" th:text="${page.pages}"></a>页 <br/>
+            <a th:href="@{/index(current=${page.current}-1)}">上一页</a> <br/>
+            当前第<a href="#" style="border-radius: 10px;margin-left: 8px;margin-right: 8px;" th:text="${page.current}"></a>页 <br/>
+            <a th:href="@{/index(current=${page.current}+1)}">下一页</a>
+        </nav>
+    </div>
+
+
+    <div>
+    <table class="t_all" border="1">
+        <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>号码</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="l : ${page.records}">
+            <td th:text="${l.id}"></td>
+            <td th:text="${l.name}"></td>
+            <td th:text="${l.age}"></td>
+            <td th:text="${l.tel}"></td>
+            <td width="160px">
+                <span>
+                    <a th:href="@{/update(id=${l.id})}">
+                        <button class="bu">修改</button>
+                    </a>
+                </span>
+                <span>
+                    <a th:href="@{/delete(id=${l.id})}">
+                        <button class="bu">删除</button>
+                    </a>
+                </span>
+            </td>
+        </tr>
+        <a th:href="@{/addUser}">
+            <button class="bu" style="margin-left: 500px;">增加</button>
+        </a>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

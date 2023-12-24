@@ -1,0 +1,75 @@
+事前准备:
+mysql.sql的内容
+
+
+1) 加入依赖
+
+修改 :  将 version 中的版本修改为2.7.6
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.6</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+增加 :
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.2.15</version>
+        </dependency>
+
+
+
+2) 介绍application.yaml
+将application.properties 后缀改为 application.yaml
+
+    当涉及 MyBatis-Plus 的配置时，两个属性 `column-underline` 和 `map-underscore-to-camel-case` 都涉及数据库列名和 Java 对象字段之间的映射规则。
+
+    1. **`column-underline: true` (在 `global-config` 的 `db-config` 下)**：
+
+      这个属性告诉 MyBatis-Plus 在进行数据库列名到 Java 对象字段的映射时，使用了下划线风格。例如，如果数据库中的列名是 `user_name`，那么在 Java 对象中对应的字段会是 `userName`。这只影响 MyBatis-Plus 的默认映射规则，强制其使用下划线风格。
+
+    2. **`map-underscore-to-camel-case: true` (在 `configuration` 下)**：
+
+        这个属性也涉及数据库列名到 Java 对象字段的映射，但它是用于将数据库中的下划线命名风格转换为 Java 中的驼峰命名风格。例如，如果数据库列名是 `user_name`，这个配置会使 MyBatis-Plus 在映射到 Java 对象时将其命名为 `userName`。这个配置更多是为了自动化处理下划线风格到驼峰风格的转换，方便在代码中使用驼峰命名规则。
+
+    两者的区别在于作用范围和影响的方式：
+        - `column-underline: true` 是强制性地告诉 MyBatis-Plus 使用下划线风格，而不管其他配置或约定。它影响默认映射策略。
+        - `map-underscore-to-camel-case: true` 是告诉 MyBatis-Plus 将数据库列名中的下划线风格自动转换为驼峰风格。这更多是一种方便的约定，用于在代码中保持一致的命名风格。
+
+        根据你的需求，你可以根据项目的情况选择其中一个或同时使用这两个配置，以便更好地管理数据库列名和 Java 对象字段之间的映射关系。
+
+
+
+
+3) 对Student类的介绍(实体层)
+
+5) springboot绑定到mybatis-plus (数据层)
+对mapper下的介绍
+到这里就可以使用mybatis-plus内置最原始的增删改查，但是不够灵活，只能做最简单的增删改查
+
+6) 把数据层加工处理成逻辑业务 (service服务层)
+
+为什么要写这个接口？
+
+继承了MP（mybatis-plus）封装好的接口，我们需要的各种增删改查方法都在这里面给我们写好了，这个接口编写是为了给后面控制层去调用这个接口里面的增删改查方法。
+
+你说的增删改查方法怎么看不到？
+
+因为被MP封装到了 这个IService接口里面了
+
+
+
+在service包下建立这个 ServiceImpl类
+
+
+7) controller
+
+
+
