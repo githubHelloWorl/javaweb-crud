@@ -3,7 +3,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql:///aaa?characterEncoding=utf-8
     username: root
-    password: chen1213
+    password: pass
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     static-path-pattern: /static/**
