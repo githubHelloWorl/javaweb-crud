@@ -10,7 +10,7 @@ CREATE TABLE `user`  (
     `password` varchar(50) ,
     `age` int(10) ,
     `tel` varchar(255)
-) auto_increment=1;
+) ;
 
 INSERT INTO `user` VALUES (1, 'tom', 'tom', 3 , '188666888');
 INSERT INTO `user` VALUES (2, 'jerry', 'jerry',  4 , '166888666');

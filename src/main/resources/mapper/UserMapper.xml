@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo5_mybatis.mapper.UserMapper">
+    <select id="findById1" resultType="com.example.demo5_mybatis.model.entity.User">
+        select * from User
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll1" resultType="com.example.demo5_mybatis.model.entity.User">
+        select * from User
+    </select>
+
+    <insert id="addUser1" >
+        insert into user(name,password,age,tel) values(#{u.name},#{u.password},#{u.age},#{u.tel})
+    </insert>
+
+    <update id="updateUserById1">
+        update user set name = #{u.name}, age = #{u.age} ,tel = #{u.tel}
+        <where>
+            id = #{u.id}
+        </where>
+    </update>
+
+    <delete id="deleteUserById1">
+        delete from user
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+</mapper>

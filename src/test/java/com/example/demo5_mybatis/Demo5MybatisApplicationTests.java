@@ -12,6 +12,6 @@ class Demo5MybatisApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println(userMapper.selectList(null));
+        System.out.println(4);
     }
 }

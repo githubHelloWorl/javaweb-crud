@@ -1,151 +1,56 @@
 package com.example.demo5_mybatis.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo5_mybatis.entity.User;
+import com.example.demo5_mybatis.model.entity.User;
+import com.example.demo5_mybatis.model.pojo.Result;
 import com.example.demo5_mybatis.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class UserController {
     @Autowired
     private UserService userService;
 
-    // 用来储存用户数据
-    private List<User> users;
-
-    @RequestMapping("/")
-    public String index(Model model){
-
-        Page<User> page=new Page<>(1,10);
-        userService.page(page,null);
-        model.addAttribute("page",page);
-
-        //users=userService.list();
-        //model.addAttribute("li",users);
-
-        return "index";
+    @GetMapping("/findAll")
+    public Result findAll(){
+        return Result.success(userService.findAll());
     }
 
-    // 用于翻页
-    @RequestMapping("/index")
-    public String index(int current,Model model){
-
-        Page<User> page=new Page<>(current,10);
-        userService.page(page,null);
-        model.addAttribute("page",page);
-
-        return "index";
+    @GetMapping("/findById")
+    public Result findById(@RequestParam(value="id") Integer id){
+        return Result.success(userService.findById(id));
     }
 
-    @RequestMapping("/update")
-    public String update(int id,Model model){
-        User u=userService.getById(id);
-        u.setAge(10);
-        u.setName("name1");
-        u.setTel("123456789");
+    @PostMapping("/addUser")
+    public Result addUser(@RequestBody User user){ return Result.success(userService.addUser(user)); }
 
-        userService.updateById(u);
-        System.out.println("修改的信息为:"+u);
+    @PostMapping("/updateUserById")
+    public Result updateUserById(@RequestBody User user){return Result.success(userService.updateUserById(user));}
 
-        Page<User> page=new Page<>(1,10);
-        userService.page(page,null);
-        model.addAttribute("page",page);
+    @PostMapping("/deleteUserById")
+    public Result deleteUserById(@RequestParam("id") Integer id){return Result.success(userService.deleteUserById(id));}
 
+    @GetMapping("/findById1")
+    public Result findById1(@RequestParam("id") Integer id){return Result.success(userService.findById1(id));}
 
-        /*
-        User u=userService.getById(id);
-        u.setAge(10);
-        u.setName("name1");
-        u.setTel("123456789");
-
-        userService.updateById(u);
-        System.out.println("修改的信息为:"+u);
-
-        users=userService.list();
-        model.addAttribute("li",users);
-        */
-
-        return "index";
+    @GetMapping("/findAll1")
+    public Result findAll1(){
+        return Result.success(userService.findAll1());
     }
 
-    @RequestMapping("/delete")
-    public String delete(int id,Model model){
-        userService.removeById(id);
-        System.out.println("删除用户,id="+id);
+    @PostMapping("/addUser1")
+    public Result addUser1(@RequestBody User user){return Result.success(userService.addUser1(user));}
 
-        Page<User> page=new Page<>(1,10);
-        userService.page(page,null);
-        model.addAttribute("page",page);
+    @PostMapping("/updateUserById1")
+    public Result updateUserById1(@RequestBody User user){return Result.success(userService.updateUserById1(user));}
 
-        /*
-        userService.removeById(id);
-        System.out.println("删除用户,id="+id);
-
-        users=userService.list();
-        model.addAttribute("li",users);
-         */
-
-        return "index";
-    }
-
-    @RequestMapping("/addUser")
-    public String addUser(Model model){
-        User u=new User();
-        u.setName("hello");
-        u.setPassword("pass1");
-        u.setAge(11);
-        u.setTel("123456789");
-        userService.save(u);
-
-        Page<User> page=new Page<>(1,10);
-        userService.page(page,null);
-        model.addAttribute("page",page);
-
-        /*
-        User u=new User();
-        u.setName("hello");
-        u.setPassword("pass1");
-        u.setAge(11);
-        u.setTel("123456789");
-        userService.save(u);
-
-        users=userService.list();
-        model.addAttribute("li",users);
-         */
-
-        return "index";
-    }
-
-
-    @PostMapping("selectLike")
-    public String selectSome(String name,Model model){
-
-        LambdaQueryWrapper<User> lambdaQueryWrapper= Wrappers.lambdaQuery();
-        lambdaQueryWrapper.like(User::getName,name);
-
-        Page<User> page=new Page<>(1,10);
-        userService.page(page,lambdaQueryWrapper);
-        model.addAttribute("page",page);
-
-        /*
-        LambdaQueryWrapper<User> lambdaQueryWrapper= Wrappers.lambdaQuery();
-        lambdaQueryWrapper.like(User::getName,name);
-
-        users=userMapper.selectList(lambdaQueryWrapper);
-        model.addAttribute("li",users);
-
-         */
-
-        return "index";
-    }
-
+    @PostMapping("/deleteUserById1")
+    public Result deleteUserById1(@RequestParam("id") Integer id){return Result.success(userService.deleteUserById1(id));}
 }
